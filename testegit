@@ -1,0 +1,3 @@
+FROM nginx
+Echo "Hello, World"
+expose 80
