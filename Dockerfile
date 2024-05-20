@@ -1,3 +1,3 @@
-FROM gabrielsoliva/gbrimg:v1
+FROM gabrielsoliva/gbrimg:v2
 EXPOSE 80
 RUN echo "Hello there"
