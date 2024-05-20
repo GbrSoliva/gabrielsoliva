@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: meupod-deploy
+  labels:
+    app: meupod-deploy
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: meupod-deploy
+  template:
+    metadata:
+      labels:
+        app: meupod-deploy
+    spec:
+      containers:
+      - name: meupod-deploy
+        image: gabrielsoliva/gbrimg:v2
+        ports:
+        - containerPort: 80
