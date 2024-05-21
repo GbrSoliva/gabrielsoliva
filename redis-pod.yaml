@@ -12,3 +12,19 @@ spec:
   dnsPolicy: ClusterFirst
   restartPolicy: Always
 status: {}
+
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-svc
+spec:
+  selector:
+    app: redis-pod
+  type: ClusterIP
+  ports:
+    - port: 6379
+      targetPort: 80
+      protocol: TCP
