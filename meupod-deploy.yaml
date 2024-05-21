@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: meupod-deploy
-        image: gabrielsoliva/gbrimg:v2
+        image: gabrielsoliva/gbrimg:v3
         ports:
         - containerPort: 80
 
