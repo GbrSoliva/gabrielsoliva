@@ -1,0 +1,42 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Initialize') {
+            steps {
+                echo 'Build iniciada!'
+            }
+        }
+        stage('GIT CHECKOUT'){
+            steps{
+                git(
+                    url: 'https://github.com/GbrSoliva/gabrielsoliva.git',
+                    branch: 'main'
+                    )
+                script{
+                    TAG_VERSION = sh(script: 'git rev-parse --short HEAD', returnStdout:true).trim()
+                }
+            }
+        }
+        stage('BUILD IMAGE'){
+            steps{
+                echo "GIT TAG VERSION: ${TAG_VERSION}"
+                sh "docker build . -f Dockerfile -t gabrielsoliva/gbrimg:${TAG_VERSION}"
+                sh "docker tag gabrielsoliva/gbrimg:${TAG_VERSION} gabrielsoliva/gbrimg:latest"
+            }
+        }
+        stage('PUSH IMAGE'){
+            steps{
+                sh "docker login --username=gabrielsoliva --password=Docker@24"
+                sh "docker push gabrielsoliva/gbrimg:${TAG_VERSION}" 
+                sh "docker push gabrielsoliva/gbrimg:latest"
+            }
+            
+        }
+        stage('UPDATE K8S'){
+            steps{
+                sh "kubectl set image deploy/meupod meupod=gabrielsoliva/gbrimg"
+                sh "kubectl rollout status deploy/meupod"
+            }
+        }
+    }
