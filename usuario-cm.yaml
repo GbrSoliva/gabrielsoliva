@@ -1,0 +1,7 @@
+apiVersion: v1 
+kind: ConfigMap 
+metadata:
+ name: usuarios-cm 
+data:
+ database_password: "123456"
+ database_user: "root"
